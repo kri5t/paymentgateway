@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F9AAF051-5C2C-4F5E-A285-48714B776F32}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		readme.md = readme.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentGatewayAPI", "src\PaymentGatewayAPI\PaymentGatewayAPI.csproj", "{A1575F17-666C-42AB-A9AD-A213AC9B2E21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentGatewayCore", "src\PaymentGatewayCore\PaymentGatewayCore.csproj", "{335EE4E7-8259-40F8-B3FB-99139485D99E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentGatewayDatabase", "src\PaymentGatewayDatabase\PaymentGatewayDatabase.csproj", "{6DBF1143-AB74-4AFE-9EC1-BA7C9982AC8D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A1575F17-666C-42AB-A9AD-A213AC9B2E21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1575F17-666C-42AB-A9AD-A213AC9B2E21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1575F17-666C-42AB-A9AD-A213AC9B2E21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1575F17-666C-42AB-A9AD-A213AC9B2E21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{335EE4E7-8259-40F8-B3FB-99139485D99E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{335EE4E7-8259-40F8-B3FB-99139485D99E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{335EE4E7-8259-40F8-B3FB-99139485D99E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{335EE4E7-8259-40F8-B3FB-99139485D99E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DBF1143-AB74-4AFE-9EC1-BA7C9982AC8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DBF1143-AB74-4AFE-9EC1-BA7C9982AC8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DBF1143-AB74-4AFE-9EC1-BA7C9982AC8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DBF1143-AB74-4AFE-9EC1-BA7C9982AC8D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
