@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using PaymentGatewayAPI.Model;
 using PaymentGatewayCore.Command;
 
 namespace PaymentGatewayAPI.Controller
@@ -13,7 +14,9 @@ namespace PaymentGatewayAPI.Controller
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> CreatePaymentRequest() =>
-            OkResult(await Mediator.Send(new CreatePaymentCommand())); 
+        public async Task<IActionResult> CreatePaymentRequest([FromBody] CreatePaymentRequest model) =>
+            OkResult(await Mediator.Send(
+                new CreatePaymentCommand(model.CardNumber, model.ExpiryMonth, model.ExpiryYear, 
+                    model.Amount, model.Currency, model.Cvv))); 
     }
 }
