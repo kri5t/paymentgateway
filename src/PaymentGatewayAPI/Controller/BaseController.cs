@@ -2,7 +2,7 @@ using System;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using PaymentGatewayAPI.Model;
+using PaymentGatewayCore.Model;
 
 namespace PaymentGatewayAPI.Controller
 {
