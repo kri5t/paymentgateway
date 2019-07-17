@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Internal;
 using PaymentGatewayCore;
 using PaymentGatewayDatabase;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace PaymentGatewayAPI
 {
@@ -32,6 +35,15 @@ namespace PaymentGatewayAPI
             services
                 .AddCoreServices(Configuration["ConnectionString"])
                 .AddMvc();
+            
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Payment API", Version = "v1" });
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
         }
         
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -40,6 +52,13 @@ namespace PaymentGatewayAPI
                 app.UseDeveloperExceptionPage();
 
             UpdateDatabase(app);
+            
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Payment API");
+            });
+
             app.UseMvc();
         }
         
