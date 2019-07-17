@@ -10,11 +10,24 @@ namespace PaymentGatewayCore.Aggregate
     {
         internal readonly Payment State;
         
+        /// <summary>
+        /// Hydrate the aggregate with an already existing payment
+        /// </summary>
+        /// <param name="state"> The payment for the aggregate </param>
         public PaymentAggregate(Payment state)
         {
             State = state;
         }
 
+        /// <summary>
+        /// Create a new payment
+        /// </summary>
+        /// <param name="cardNumber"> The card number of the payment request</param>
+        /// <param name="amount"> The amount that will be charged on the card </param>
+        /// <param name="currency"> The currency in which the payment will be processed </param>
+        /// <param name="paymentStatus"> Status of the payment done with the bank </param>
+        /// <param name="bankTransactionUid"> The uid of the transaction </param>
+        /// <param name="createdDateUtc"> When the transaction was done </param>
         public PaymentAggregate(string cardNumber, int amount, string currency, PaymentStatus paymentStatus, Guid bankTransactionUid, DateTimeOffset createdDateUtc)
         {
             State = new Payment();

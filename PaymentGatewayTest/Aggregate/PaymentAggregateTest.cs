@@ -22,7 +22,7 @@ namespace PaymentGatewayTest.Aggregate
         }
         
         [Fact]
-        public void CreatePayment_ReturnsAggregate_WithCorrectParameters(){
+        public void ReturnsAggregate_WithCorrectParameters(){
             //Setup
                
             //Test
@@ -38,7 +38,7 @@ namespace PaymentGatewayTest.Aggregate
         }
         
         [Fact]
-        public void CreatePayment_ThrowsException_OnWrongCreditCard(){
+        public void ThrowsException_OnWrongCreditCard(){
             //Setup
                
             //Test
@@ -48,7 +48,7 @@ namespace PaymentGatewayTest.Aggregate
         }
         
         [Fact]
-        public void CreatePayment_ThrowsException_OnEmptyCreditCard(){
+        public void ThrowsException_OnEmptyCreditCard(){
             //Setup
                
             //Test
@@ -58,7 +58,7 @@ namespace PaymentGatewayTest.Aggregate
         }
         
         [Fact]
-        public void CreatePayment_ThrowsException_OnNegativeAmount(){
+        public void ThrowsException_OnNegativeAmount(){
             //Setup
                
             //Test
@@ -68,7 +68,7 @@ namespace PaymentGatewayTest.Aggregate
         }
         
         [Fact]
-        public void CreatePayment_ThrowsException_OnEmptyCurrency(){
+        public void ThrowsException_OnEmptyCurrency(){
             //Setup
                
             //Test
@@ -78,7 +78,7 @@ namespace PaymentGatewayTest.Aggregate
         }
         
         [Fact]
-        public void CreatePayment_ThrowsException_OnDefaultTransactionUid(){
+        public void ThrowsException_OnDefaultTransactionUid(){
             //Setup
                
             //Test

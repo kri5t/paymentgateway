@@ -1,20 +1,25 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using MediatR;
+using Microsoft.Extensions.Internal;
 using PaymentGatewayCore.Architecture;
+using PaymentGatewayCore.BankMock;
 using PaymentGatewayCore.Model;
+using PaymentGatewayCore.Repository;
+using PaymentGatewayDatabase.Models;
 
 namespace PaymentGatewayCore.Command
 {
-    public class CreatePaymentCommand : IRequest<CreatePaymentCommandResponse>
+    public class CreatePaymentCommand : IRequest<VoidObject>
     {
         public string CardNumber { get; }
         public int ExpiryMonth { get; }
         public int ExpiryYear { get; }
         public int Amount { get; }
         public string Currency { get; }
-        public string Cvv { get; }
+        public int Cvv { get; }
 
         /// <summary>
         /// Command to create a payment request
@@ -26,7 +31,7 @@ namespace PaymentGatewayCore.Command
         /// <param name="currency"> The currency in which the payment will be processed </param>
         /// <param name="cvv"> The cvv number of the card </param>
         public CreatePaymentCommand(string cardNumber, int expiryMonth, int expiryYear, int amount, string currency, 
-            string cvv)
+            int cvv)
         {
             CardNumber = cardNumber;
             ExpiryMonth = expiryMonth;
@@ -38,19 +43,45 @@ namespace PaymentGatewayCore.Command
     }
     
     [UsedImplicitly]
-    public class CreatePaymentCommandHandler : BaseRequestHandler<CreatePaymentCommand, CreatePaymentCommandResponse>
+    public class CreatePaymentCommandHandler : BaseRequestHandler<CreatePaymentCommand, VoidObject>
     {
-        public CreatePaymentCommandHandler()
+        private readonly IPaymentRepository _paymentRepository;
+        private readonly IBank _bank;
+        private readonly ISystemClock _systemClock;
+
+        public CreatePaymentCommandHandler(IPaymentRepository paymentRepository, IBank bank, ISystemClock systemClock)
         {
+            _paymentRepository = paymentRepository;
+            _bank = bank;
+            _systemClock = systemClock;
         }
         
-        public override Task<CreatePaymentCommandResponse> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
+        public override async Task<VoidObject> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var (paymentStatus, bankTransactionUid) = ProcessBankPayment(request);
+
+                await _paymentRepository.CreatePaymentAsync(cancellationToken, request.CardNumber, request.Amount, 
+                    request.Currency, paymentStatus, bankTransactionUid, _systemClock.UtcNow);
+
+                await _paymentRepository.SaveAsync(cancellationToken);
+
+                if (paymentStatus != PaymentStatus.PaymentSucceeded)
+                    return Error(ErrorCode.UnexpectedError, $"The payment was not a success. It failed with code {paymentStatus}");
+            }
+            catch (Exception e)
+            {
+                return Error(ErrorCode.UnexpectedError, e.Message);
+            }
+            
+            return Success();
         }
-    }
-    
-    public class CreatePaymentCommandResponse : BaseResponseModel
-    {
+
+        private (PaymentStatus paymentStatus, Guid bankTransactionUid) ProcessBankPayment(CreatePaymentCommand request)
+        {
+            return _bank.CreateTransfer(request.CardNumber, request.ExpiryMonth, request.ExpiryYear, request.Amount,
+                request.Currency, request.Cvv);
+        }
     }
 }

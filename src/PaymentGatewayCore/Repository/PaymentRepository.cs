@@ -1,19 +1,42 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using PaymentGatewayCore.Aggregate;
+using PaymentGatewayDatabase;
+using PaymentGatewayDatabase.Models;
 
 namespace PaymentGatewayCore.Repository
 {
     public class PaymentRepository : IPaymentRepository
     {
-        public PaymentAggregate CreatePayment(string cardNumber, int expiryMonth, int expiryYear, int amount, string currency,
-            string cvv)
+        private readonly DatabaseContext _database;
+
+        public PaymentRepository(DatabaseContext database)
         {
-            throw new System.NotImplementedException();
+            _database = database;
+        }
+        
+        public async Task<PaymentAggregate> CreatePaymentAsync(CancellationToken cancellationToken, string cardNumber, 
+            int amount, string currency, PaymentStatus paymentStatus, Guid bankTransactionUid, 
+            DateTimeOffset createdDateUtc)
+        {
+            var aggregate = new PaymentAggregate(cardNumber, amount, currency, paymentStatus, bankTransactionUid, createdDateUtc);
+            await _database.Payments.AddAsync(aggregate.State, cancellationToken);
+            return aggregate;
+        }
+
+        public async Task SaveAsync(CancellationToken cancellationToken)
+        {
+            await _database.SaveChangesAsync(cancellationToken);
         }
     }
 
     public interface IPaymentRepository
     {
-        PaymentAggregate CreatePayment(string cardNumber, int expiryMonth, int expiryYear, int amount, string currency, 
-            string cvv);
+        Task<PaymentAggregate> CreatePaymentAsync(CancellationToken cancellationToken, string cardNumber, 
+            int amount, string currency, PaymentStatus paymentStatus, Guid bankTransactionUid, 
+            DateTimeOffset createdDateUtc);
+
+        Task SaveAsync(CancellationToken cancellationToken);
     }
 }

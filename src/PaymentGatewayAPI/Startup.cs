@@ -25,10 +25,10 @@ namespace PaymentGatewayAPI
             services.AddSingleton<ISystemClock, SystemClock>();
             //AutoMapper configs
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            Mapper.Initialize(x => x.AddMaps(AppDomain.CurrentDomain.GetAssemblies()));
+            Mapper.Initialize(config => config.AddMaps(AppDomain.CurrentDomain.GetAssemblies()));
             Mapper.Configuration.AssertConfigurationIsValid();
             //END AutoMapper configs
-
+            
             services
                 .AddCoreServices(Configuration["ConnectionString"])
                 .AddMvc();
