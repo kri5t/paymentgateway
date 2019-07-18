@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using PaymentGatewayCore;
 using PaymentGatewayDatabase;
 using Serilog;
+using Serilog.Exceptions;
 using Serilog.Sinks.SystemConsole.Themes;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -58,9 +59,12 @@ namespace PaymentGatewayAPI
 
         private Serilog.ILogger GetLogger()
         {
-            var conf = new LoggerConfiguration();
-            conf.WriteTo.Console(theme: AnsiConsoleTheme.Code);
-            var logger = conf.CreateLogger();
+            var logger = 
+                new LoggerConfiguration()
+                    .Enrich.WithExceptionDetails()
+                    .WriteTo.Console(theme: AnsiConsoleTheme.Code)
+                    .CreateLogger();
+            
             Log.Logger = logger;
             return logger;
         }
