@@ -14,13 +14,13 @@ Added swagger for documentation:
 https://localhost/swagger/index.html
 
 ## Assumptions
-##### Credit card information
+#### Credit card information
 In my version of the API I assume that we do not want to deal with storing
 credit card information from the user. This leaves us out of liability should
 the worst think happen and a dataleak occurs. Therefor I am only storing the
 information that I need for receipt.
 
-##### Only one user
+#### Only one user
 Right now I assume only one user. As this is only testing. Therefore
 I assume that all the entries in the DB are for one user.
 
@@ -45,7 +45,7 @@ And also decouples the tie between a specific database object and the
 business logic.
 
 ## Future work
-##### Authentication
+#### Authentication
 I have not had time to set-up authentication on the endpoints. If I were 
 to set-up the authentication I would make use of the following technologies:
 
@@ -63,13 +63,13 @@ everything is handled for me. Since this takes away complexity and
 allows me to focus on the implementation of the application, while 
 knowing the application is secure.
 
-##### Test coverage
+#### Test coverage
 I do not have the best test coverage and some of the tests can benefit 
 from even greater granularity. The basic business logic is under test, 
 which is the most important. I have shown how the business logic, commands
 and repository can be tested.
 
-##### Bank simulator
+#### Bank simulator
 The bank simulator is very barebones. The simulator could have been more 
 elaborate. And fx been implemented using webhooks - If the service was 
 handled asynchronous. I have experience from implementing the Stripe API
@@ -79,14 +79,14 @@ If this was to be handled via webhooks. We would need a way to notify
 our vendor when the transaction went through. All of this would free up
 resources on our end. And would help us processing more requests.
 
-##### Application metrics
+#### Application metrics
 Right now we are using prometheus for application metrics. And grafana to 
 visualize it. It is a great platform that comes with a lot of plugins.
 
 If a locally hosted solution is not great. Azure also has application monitor
 that can help both with logging and error handling.
 
-##### Database
+#### Database
 The database migration is being run as a part of the WebApi start up.
 This is not ideal when moving into an area where more services might 
 share the same DB. This has only been done like this for ease of use and
@@ -94,37 +94,37 @@ build time. If this was a production build it would be part of the CI/CD
 and be a step on its own.
 
 ## Technologies
-##### MediatR:
+#### MediatR:
 Used as a mediation layer to connect the controller layer to the data 
 layer. It creates an abstraction between the two, that makes it easier 
 to handle dependency injection and a lose coupling.
 
-##### Automapper: 
+#### Automapper: 
 Used for mapping data result models to the response models of the 
 controllers. This is used to control the response models and make sure 
 that new properties will not be forgotten when adding them to the data 
 layer result models.
 
-##### Swagger: 
+#### Swagger: 
 Used for automatic documentation of the endpoint. It takes the XML 
 comments in the code and presents them to the consumers of the API.
 
-##### Entity Framework: 
+#### Entity Framework: 
 Is used as an ORM for the database. This eases the communication between 
 database and data layer in the application. Also it provides me with 
 LINQ support which is a powerful querying language.
 
-##### XUnit: 
+#### XUnit: 
 Is used for testing purposes. It is very similar to NUnit. I prefer 
 this framework because I have most experience with it, but it also 
 seems to have a bit less boilerplate. As it follows the set-up of a 
 class, instead of having decorators to control the different methods 
 as NUnit does.
 
-##### Moq: 
+#### Moq: 
 Mocking framework used in the unit tests, to abstract out parts that 
 is not important to the part of the code I am testing.
 
-##### Serilog:
+#### Serilog:
 Added serilog for logging options. It is highly customizable and can
 be customized to send logs to azure, file, console etc.
