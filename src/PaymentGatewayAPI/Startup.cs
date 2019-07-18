@@ -8,8 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Internal;
+using Microsoft.Extensions.Logging;
 using PaymentGatewayCore;
 using PaymentGatewayDatabase;
+using Serilog;
+using Serilog.Sinks.SystemConsole.Themes;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace PaymentGatewayAPI
@@ -21,6 +24,9 @@ namespace PaymentGatewayAPI
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            Log.Logger = new LoggerConfiguration()  
+                .ReadFrom.Configuration(configuration)  
+                .CreateLogger();  
         }
         
         public void ConfigureServices(IServiceCollection services)
@@ -33,6 +39,8 @@ namespace PaymentGatewayAPI
             //END AutoMapper configs
 
             var connectionString = Configuration["ConnectionString"];
+            
+            services.AddLogging(conf => { conf.AddConsole(options => { options.IncludeScopes = true; }); });
             
             services
                 .AddCoreServices(connectionString)
@@ -47,12 +55,22 @@ namespace PaymentGatewayAPI
                 c.IncludeXmlComments(xmlPath);
             });
         }
-        
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-//            if (env.IsDevelopment())
-//                app.UseDeveloperExceptionPage();
 
+        private Serilog.ILogger GetLogger()
+        {
+            var conf = new LoggerConfiguration();
+            conf.WriteTo.Console(theme: AnsiConsoleTheme.Code);
+            var logger = conf.CreateLogger();
+            Log.Logger = logger;
+            return logger;
+        }
+        
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        {
+            if (env.IsDevelopment())
+                app.UseDeveloperExceptionPage();
+            
+            loggerFactory.AddSerilog(GetLogger());
             UpdateDatabase(app);
             
             app.UseSwagger();

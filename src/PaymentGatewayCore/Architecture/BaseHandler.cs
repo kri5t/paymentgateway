@@ -2,6 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using PaymentGatewayCore.Model;
+using Serilog;
 
 namespace PaymentGatewayCore.Architecture
 {
@@ -15,15 +16,24 @@ namespace PaymentGatewayCore.Architecture
         : IRequest<TResponse>
         where TResponse : BaseResponseModel, new()
     {
+        protected BaseRequestHandler()
+        {
+            Log.Information("Dispatching request {FullName}", typeof(TRequest).FullName);
+        }
+        
         public abstract Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken);
 
-        public TResponse Error(ErrorCode errorCode, string errorMessage)
+        protected TResponse Error(ErrorCode errorCode, string errorMessage)
         {
-            return new TResponse
+            var response = new TResponse
             {
                 ErrorCode = errorCode,
                 ErrorMessage = errorMessage
             };
+            
+            Log.Error("There was an error handling request: '{FullName}' With error message '{Response}'", typeof(TRequest).FullName, response.ErrorMessage);
+
+            return response;
         }
 
         protected TResponse Success()

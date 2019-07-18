@@ -1,11 +1,25 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.Extensions.Logging;
 using PaymentGatewayDatabase.Models;
 
 namespace PaymentGatewayDatabase
 {
     public class DatabaseContext : DbContext
     {
+        private readonly ILoggerFactory _loggerFactory;  
+  
+        public DatabaseContext(DbContextOptions<DatabaseContext> options, ILoggerFactory loggerFactory)  
+            : base(options)  
+        {  
+            _loggerFactory = loggerFactory;  
+        }  
+      
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)  
+        {  
+            optionsBuilder.UseLoggerFactory(_loggerFactory);  
+        }  
+        
         public DatabaseContext()
         {
         }

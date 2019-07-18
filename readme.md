@@ -5,7 +5,8 @@ To run the API you only need to run:
 
 `docker-compose up --build -d`
 
-It will build the solution using the Dockerfile and run the unit tests. When the build completes it will run the docker containers in detached mode.
+It will build the solution using the Dockerfile and run the unit tests. 
+When the build completes it will run the docker containers in detached mode.
 
 ## Documentation
 Added swagger for documentation:
@@ -22,3 +23,7 @@ information that I need for receipt.
 ##### Only one user
 Right now I assume only one user. As this is only testing. Therefore
 I assume that all the entries in the DB are for one user.
+
+##### Logging
+Added serilog for logging options. It is highly customizable and can
+be customized to send logs to azure, file, console etc.
