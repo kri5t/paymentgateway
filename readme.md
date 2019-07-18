@@ -1,6 +1,16 @@
 # Payment gateway
 
+## Setup
+To run the API you only need to run:
+
+`docker-compose up --build -d`
+
+It will build the solution using the Dockerfile and run the unit tests. When the build completes it will run the docker containers in detached mode.
+
 ## Documentation
+Added swagger for documentation:
+
+https://localhost/swagger/index.html
 
 ## Assumptions
 ##### Credit card information
