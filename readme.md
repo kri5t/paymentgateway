@@ -24,6 +24,10 @@ information that I need for receipt.
 Right now I assume only one user. As this is only testing. Therefore
 I assume that all the entries in the DB are for one user.
 
+#### Database model
+The database model is in write only mode. I am only adding transactions.
+The transactions will be added despite what the result is from the bank.
+
 ## Architecture
 I have used Command Query Responsibility Segregation(CQRS) for my access 
 to the data layer. This allows me to easily communicate to other developers, 

@@ -7,9 +7,24 @@ namespace PaymentGatewayAPI.Model
 {
     public class DetailedPaymentResponse : BasicPaymentResponse
     {
+        /// <summary>
+        /// Card number that has been obfuscated to protect the customer
+        /// </summary>
         public string CardNumber { get; set; }
+        
+        /// <summary>
+        /// The amount that was charged
+        /// </summary>
         public int Amount { get; set; }
+        
+        /// <summary>
+        /// The currency of the charge
+        /// </summary>
         public string Currency { get; set; }
+        
+        /// <summary>
+        /// When this transaction was carried out
+        /// </summary>
         public DateTimeOffset CreatedDateUtc { get; set; }
     }
 

@@ -7,7 +7,14 @@ namespace PaymentGatewayAPI.Model
 {
     public class BasicPaymentResponse
     {
+        /// <summary>
+        /// The uid that represents the payment
+        /// </summary>
         public Guid Uid { get; set; }
+        
+        /// <summary>
+        /// Status of the payment
+        /// </summary>
         public string PaymentStatus { get; set; }
     }
 
