@@ -79,6 +79,13 @@ If this was to be handled via webhooks. We would need a way to notify
 our vendor when the transaction went through. All of this would free up
 resources on our end. And would help us processing more requests.
 
+##### Application metrics
+Right now we are using prometheus for application metrics. And grafana to 
+visualize it. It is a great platform that comes with a lot of plugins.
+
+If a locally hosted solution is not great. Azure also has application monitor
+that can help both with logging and error handling.
+
 ## Technologies
 ##### MediatR:
 Used as a mediation layer to connect the controller layer to the data 
