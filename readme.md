@@ -86,6 +86,13 @@ visualize it. It is a great platform that comes with a lot of plugins.
 If a locally hosted solution is not great. Azure also has application monitor
 that can help both with logging and error handling.
 
+##### Database
+The database migration is being run as a part of the WebApi start up.
+This is not ideal when moving into an area where more services might 
+share the same DB. This has only been done like this for ease of use and
+build time. If this was a production build it would be part of the CI/CD
+and be a step on its own.
+
 ## Technologies
 ##### MediatR:
 Used as a mediation layer to connect the controller layer to the data 
