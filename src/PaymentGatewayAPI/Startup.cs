@@ -31,9 +31,11 @@ namespace PaymentGatewayAPI
             Mapper.Initialize(config => config.AddMaps(AppDomain.CurrentDomain.GetAssemblies()));
             Mapper.Configuration.AssertConfigurationIsValid();
             //END AutoMapper configs
+
+            var connectionString = Configuration["ConnectionString"];
             
             services
-                .AddCoreServices(Configuration["ConnectionString"])
+                .AddCoreServices(connectionString)
                 .AddMvc();
             
             services.AddSwaggerGen(c =>
@@ -48,8 +50,8 @@ namespace PaymentGatewayAPI
         
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-                app.UseDeveloperExceptionPage();
+//            if (env.IsDevelopment())
+//                app.UseDeveloperExceptionPage();
 
             UpdateDatabase(app);
             

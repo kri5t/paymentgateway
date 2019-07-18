@@ -4,9 +4,9 @@ using PaymentGatewayDatabase;
 
 namespace PaymentGatewayTest.Database
 {
-    public class InMemoryRecipeDbContext
+    public class InMemoryDatabaseContext
     {
-        public DatabaseContext GetRecipeDbContext()
+        public DatabaseContext GetDatabaseContext()
         {
             var options = new DbContextOptionsBuilder<DatabaseContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())

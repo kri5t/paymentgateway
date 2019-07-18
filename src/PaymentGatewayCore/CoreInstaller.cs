@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using PaymentGatewayCore.Architecture;
 using PaymentGatewayCore.BankMock;
 using PaymentGatewayCore.Repository;
 using PaymentGatewayDatabase;
@@ -18,6 +19,7 @@ namespace PaymentGatewayCore
             services.AddMediatR(typeof(CoreInstaller).Assembly);
             services.AddTransient<IPaymentRepository, PaymentRepository>();
             services.AddTransient<IBank, Bank>();
+            services.AddTransient(typeof(IQueryInterface<>), typeof(QueryInterface<>));
             return services;
         }
     }

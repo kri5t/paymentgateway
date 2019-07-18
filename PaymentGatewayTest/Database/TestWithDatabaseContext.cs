@@ -9,7 +9,7 @@ namespace PaymentGatewayTest.Database
 
         public TestWithDatabaseContext()
         {
-            DatabaseContext = new InMemoryRecipeDbContext().GetRecipeDbContext();
+            DatabaseContext = new InMemoryDatabaseContext().GetDatabaseContext();
         }
 
         public void Dispose()
